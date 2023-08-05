@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            border: 2px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #fff;
+            border-bottom: none;
+            text-align: center;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+
+        }
+
+
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .error-message strong {
+            font-weight: bold;
+        }
+
+        .error-message::before {
+            content: "\f06a";
+            font-family: "Font Awesome";
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+
+        {% if messages %}
+        <div class="error-message">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="row justify-content-center align-items-center">
+
+            <div class="col-md-6">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h3 class="mb-0">Registration</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="signup" method="post" action="">
+                            {% csrf_token %}
+                            <!-- <div class="form-group">
+                                <label for="username">Name</label>
+                                <input type="text" class="form-control" name="name"
+                                    placeholder="Enter your username" required>
+                            </div> -->
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" name="username" id="username"
+                                    placeholder="Enter your username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" name="password"
+                                    placeholder="Enter your password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Confirm Password</label>
+                                <input type="password" class="form-control" name="cpassword" id="password"
+                                    placeholder="confirm password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                            <hr>
+                            <div class="text-center">
+                                <a href="{%url 'loginpage'%}">i have already accout</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const isValidUsername = (username) => {
+          // Check if the username is empty.
+          if (username == "") {
+            return false;
+          }
+           // Check if the username is at least 5 characters long.
+          if (username.length < 5) {
+            return false;
+          }
+            // Check if the username is only alphanumeric characters.
+          // const regex = /^[a-zA-Z0-9]+$/;
+          return username
+        };
+        
+        const isValidEmail = (email) => {
+          // Regular expression for a valid email address.
+          const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        
+          // Check if the email address is valid.
+          return regex.test(email);
+        };
+        
+        const isValidPassword = (password) => {
+          // Check if the password is empty.
+          if (password == "") {
+            return false;
+          }
+
+          if (password.length<8){
+            return false;
+          }
+        
+          // Check if the password is at least 8 characters long and contains both uppercase and lowercase letters.
+          // const regex = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+          // return regex.test(password)
+          return password
+        };
+        
+        const validateSignup = (username, email, password) => {
+          const isUsernameValid = isValidUsername(username);
+          const isEmailValid = isValidEmail(email);
+          const isPasswordValid = isValidPassword(password);
+        
+          if (!isUsernameValid) {
+            document.getElementById("username").setCustomValidity("Invalid username");
+          } else {
+            document.getElementById("username").setCustomValidity("");
+          }
+        
+          if (!isEmailValid) {
+            document.getElementById("email").setCustomValidity("Invalid email address");
+          } else {
+            document.getElementById("email").setCustomValidity("");
+          }
+        
+          if (!isPasswordValid) {
+            document.getElementById("password").setCustomValidity("Invalid password");
+          } else {
+            document.getElementById("password").setCustomValidity("");
+          }
+        
+          return isUsernameValid && isEmailValid && isPasswordValid;
+        };
+        
+        document.getElementById("signup").addEventListener("submit", function(event) {
+          const username = document.getElementById("username").value;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+        
+          const isValid = validateSignup(username, email, password);
+        
+          if (!isValid) {
+            event.preventDefault(); // Prevent form submission if validation fails
+          }
+        });
+      
+      </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>

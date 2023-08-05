@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            border: 2px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #fff;
+            border-bottom: none;
+            text-align: center;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .error-message strong {
+            font-weight: bold;
+        }
+
+        .error-message::before {
+            content: "\f06a";
+            font-family: "Font Awesome";
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body >
+    <div>
+        <button class="btn btn-secondary">
+          <a href="{% url 'admin_log_in' %}" style="text-decoration: None; color: black">Admin Login</a>
+        </button>
+      </div>
+    <div class="container mt-5">
+        {% if messages %}
+        <div class="error-message">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="row justify-content-center align-items-center">
+
+            <div class="col-md-6">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h3 class="mb-0">Login</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            <div class="form-group"> 
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" name="username"
+                                    placeholder="Enter your username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" name="password"
+                                    placeholder="Enter your password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Login</button>
+                            <hr>
+                            <div class="text-center">
+                                <a href="#">Forgot password? &nbsp;</a>
+                                <a href="{% url 'signup'%}">Register?</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
