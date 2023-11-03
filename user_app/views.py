@@ -66,8 +66,8 @@ def SignupPage(request):
 #Login View
 @cache_control(no_cache=True, no_store=True)
 def Loginpage(request):
-    # if 'email' in request.session:
-    #     return redirect('home')
+    if 'email' in request.session:
+        return redirect('admin_home')
     if 'username' in request.session:
         return redirect('home')
     else:
